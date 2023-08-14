@@ -9,7 +9,10 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 final class Configuration implements ConfigurationInterface
 {
-    public function getConfigTreeBuilder(): void
+    private const TREE_BUILDER = 'skrepr_id_type';
+
+    public function getConfigTreeBuilder(): TreeBuilder
     {
+        return new TreeBuilder(self::TREE_BUILDER);
     }
 }

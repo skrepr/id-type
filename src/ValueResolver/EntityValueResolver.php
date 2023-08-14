@@ -41,7 +41,7 @@ class EntityValueResolver implements ValueResolverInterface
         // check if primary key is of type AbstractUuid
         $meta = $manager->getClassMetadata($argumentType);
         if ($meta instanceof ClassMetadataInfo) {
-            $reflectionIdType = $meta->getSingleIdReflectionProperty()->getType();
+            $reflectionIdType = $meta->getSingleIdReflectionProperty()?->getType();
         }
         if (isset($reflectionIdType) && $reflectionIdType instanceof ReflectionNamedType) {
             $idType = $reflectionIdType->getName();

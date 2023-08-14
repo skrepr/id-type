@@ -3,7 +3,7 @@
     <img width="200" height="100" src="https://cdn.skrepr.com/logo/skrepr_liggend.svg" alt="skrepr_logo" />
   </p>
 </a>
-<h1 align="center">Skrepr Teams Connector Bundle</h1>
+<h1 align="center">Skrepr ID Types</h1>
 <div align="center">
   <a href="https://github.com/skrepr/id-type/releases"><img src="https://img.shields.io/github/release/skrepr/id-type.svg" alt="Releases"/></a><a> </a>
   <a href="https://github.com/skrepr/id-type/blob/main/LICENSE"><img src="https://img.shields.io/github/license/skrepr/id-type.svg" alt="LICENSE"/></a><a> </a>
@@ -44,7 +44,7 @@ return [
 To generate an UuidType:
 
 ```bash
-bin/console make:uuid-type <id_name>
+bin/console make:id-type <id_name>
 ```
 
 Where `id_name` is something like "user_id".
@@ -81,11 +81,3 @@ class User
     }
 }
 ```
-
-```php
-// ...
-UserId::generate();
-
-
-// ...
-``` 

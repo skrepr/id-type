@@ -16,7 +16,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
-class UuidTypeMaker extends AbstractMaker
+class IdTypeMaker extends AbstractMaker
 {
     public function __construct(
         #[Autowire(service: 'maker.file_manager')] private FileManager $fileManager,
@@ -25,7 +25,7 @@ class UuidTypeMaker extends AbstractMaker
 
     public static function getCommandName(): string
     {
-        return 'make:uuid-type';
+        return 'make:id-type';
     }
 
     public static function getCommandDescription(): string

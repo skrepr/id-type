@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Skrepr\Example\ValueObject;
+namespace App\ValueObject;
 
 use Skrepr\IdType\ValueObject\AbstractUuid;
 
 class UserId extends AbstractUuid
 {
+    public const string TYPE = 'user_id';
 }

@@ -1,18 +1,18 @@
-<?= "<?php\n" ?>
+<?php
 
 declare(strict_types=1);
 
-namespace <?= $namespace ?>;
+namespace App\Persistence\Doctrine;
 
-use <?= $type_id_class_name_full ?>;
+use App\ValueObject\UserId;
 use Skrepr\IdType\Persistence\Doctrine\AbstractUuidType;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 
 #[AutoconfigureTag('skrepr.id-type')]
-class <?= $class_name ?> extends AbstractUuidType
+class UserIdType extends AbstractUuidType
 {
     protected function getClassName(): string
     {
-        return <?= $type_id_class_name ?>::class;
+        return UserId::class;
     }
 }

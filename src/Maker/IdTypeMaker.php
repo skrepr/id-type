@@ -14,6 +14,7 @@ use Symfony\Bundle\MakerBundle\Util\YamlSourceManipulator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 class IdTypeMaker extends AbstractMaker
@@ -37,6 +38,7 @@ class IdTypeMaker extends AbstractMaker
     {
         $command
             ->addArgument('name', InputArgument::REQUIRED, 'Name of the new UuidType (e.g. <fg=yellow>user_id</>)')
+            ->addOption('register', 'r', InputOption::VALUE_NONE, 'Register Id Type to config/doctrine.yaml')
         ;
     }
 
@@ -59,6 +61,7 @@ class IdTypeMaker extends AbstractMaker
             $idTypeClassNameDetails->getFullName(),
             __DIR__ . '/Resources/skeleton/Id.tpl.php',
             [
+                'type_id_name' => $input->getArgument('name'),
             ]
         );
 
@@ -72,13 +75,14 @@ class IdTypeMaker extends AbstractMaker
             ]
         );
 
-        $manipulator = new YamlSourceManipulator($this->fileManager->getFileContents('config/packages/doctrine.yaml'));
-        $doctrineData = $manipulator->getData();
-        $doctrineData['doctrine']['dbal']['types'][$input->getArgument('name')] = $persistenceClassNameDetails->getFullName();
-        $manipulator->setData($doctrineData);
+        if ($input->getOption('register') !== false) {
+            $manipulator = new YamlSourceManipulator($this->fileManager->getFileContents('config/packages/doctrine.yaml'));
+            $doctrineData = $manipulator->getData();
+            $doctrineData['doctrine']['dbal']['types'][$input->getArgument('name')] = $persistenceClassNameDetails->getFullName();
+            $manipulator->setData($doctrineData);
 
-        $generator->dumpFile('config/packages/doctrine.yaml', $manipulator->getContents());
-
+            $generator->dumpFile('config/packages/doctrine.yaml', $manipulator->getContents());
+        }
         $generator->writeChanges();
 
         $this->writeSuccessMessage($io);

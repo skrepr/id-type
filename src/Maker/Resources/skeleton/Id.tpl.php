@@ -8,4 +8,5 @@ use Skrepr\IdType\ValueObject\AbstractUuid;
 
 class <?= $class_name ?> extends AbstractUuid
 {
+    public const string TYPE = '<?= $type_id_name ?>';
 }

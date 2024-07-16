@@ -2,12 +2,24 @@
 
 declare(strict_types=1);
 
-namespace Skrepr\Example\Entity;
+namespace App\Entity;
 
-use Skrepr\Example\ValueObject\UserId;
+use App\ValueObject\UserId;
+use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\Entity]
 class User
 {
-    public UserId $id;
+    #[ORM\Id]
+    #[ORM\Column(type: UserId::TYPE)]
+    public readonly UserId $id;
+
+    #[ORM\Column(type: 'string')]
     public string $name;
+
+    public function __construct(string $name)
+    {
+        $this->id = UserId::generate();
+        $this->name = $name;
+    }
 }

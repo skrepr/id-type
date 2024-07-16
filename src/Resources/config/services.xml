@@ -6,9 +6,7 @@
 
     <services>
 
-        <service id="skrepr_id_type.value_resolver.id" class="Skrepr\IdType\ValueResolver\IdValueResolver" public="true">
-
-        </service>
+        <service id="skrepr_id_type.value_resolver.id" class="Skrepr\IdType\ValueResolver\IdValueResolver" public="true"></service>
 
         <service id="Skrepr\IdType\ValueResolver\IdValueResolver" alias="skrepr_id_type.value_resolver.id"/>
     </services>

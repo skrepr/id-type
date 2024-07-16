@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Skrepr\IdType\ValueResolver;
 
-use Skrepr\IdType\ValueObject\AbstractUuid;
+use Skrepr\IdType\ValueObject\AbstractId;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\Persistence\ManagerRegistry;
 use ReflectionNamedType;
@@ -48,7 +48,7 @@ class EntityValueResolver implements ValueResolverInterface
         }
         if (
             !isset($idType)
-            || !is_subclass_of($idType, AbstractUuid::class, true)
+            || !is_subclass_of($idType, AbstractId::class, true)
         ) {
             return [];
         }

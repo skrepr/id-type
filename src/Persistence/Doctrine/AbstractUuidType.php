@@ -10,7 +10,7 @@ use Doctrine\DBAL\Types\GuidType;
 use Doctrine\DBAL\Types\Type;
 use Symfony\Component\Uid\Uuid;
 
-abstract class AbstractUuidType extends Type
+abstract class AbstractUuidType extends Type implements IdTypeInterface
 {
     abstract protected function getClassName(): string;
 
@@ -43,5 +43,10 @@ abstract class AbstractUuidType extends Type
         }
 
         return null;
+    }
+
+    public function getName(): string
+    {
+        return (static::getClassName())::TYPE;
     }
 }

@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.3] - 2024-07-16
+## [1.3](https://github.com/skrepr/id-type/releases/tag/1.3) - 2024-07-16
 
 ### Added
 
@@ -15,13 +15,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Requirements changed to PHP 8.3
 
-## [1.2] - 2024-02-13
+## [1.2](https://github.com/skrepr/id-type/releases/tag/1.2) - 2024-02-13
 
 ### Changed
 
 - Support voor Symfony 7
 
-## [1.1] - 2023-08-14
+## [1.1](https://github.com/skrepr/id-type/releases/tag/1.1) - 2023-08-14
 
 ### Fixed
 

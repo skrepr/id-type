@@ -38,6 +38,11 @@ abstract class AbstractUuidType extends Type implements IdTypeInterface
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?Uuid
     {
+        if (is_string($value)) {
+            $className = '\\' . $this->getClassName();
+            $value = new $className($value);
+        }
+
         if ($value instanceof AbstractUuid) {
             return (new GuidType())->convertToDatabaseValue($value->getId(), $platform);
         }
@@ -47,6 +52,6 @@ abstract class AbstractUuidType extends Type implements IdTypeInterface
 
     public function getName(): string
     {
-        return (static::getClassName())::TYPE;
+        return ($this->getClassName())::TYPE;
     }
 }

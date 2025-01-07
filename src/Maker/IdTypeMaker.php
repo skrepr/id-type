@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Skrepr\IdType\Maker;
 
+use InvalidArgumentException;
 use Symfony\Bundle\MakerBundle\ConsoleStyle;
 use Symfony\Bundle\MakerBundle\DependencyBuilder;
 use Symfony\Bundle\MakerBundle\FileManager;
@@ -38,6 +39,7 @@ class IdTypeMaker extends AbstractMaker
     {
         $command
             ->addArgument('name', InputArgument::REQUIRED, 'Name of the new UuidType (e.g. <fg=yellow>user_id</>)')
+            ->addOption('namespace', 's', InputOption::VALUE_REQUIRED, 'Extra namespace (single word) for the new UuidType (e.g. <fg=yellow>Shop</>)')
             ->addOption('register', 'r', InputOption::VALUE_NONE, 'Register Id Type to config/doctrine.yaml')
         ;
     }
@@ -48,20 +50,33 @@ class IdTypeMaker extends AbstractMaker
 
     public function generate(InputInterface $input, ConsoleStyle $io, Generator $generator): void
     {
+        $extraNamespace = '';
+        $extraName = '';
+        if ($input->hasOption('namespace')) {
+            $namespace = $input->getOption('namespace');
+            if (!preg_match('/^[a-zA-Z][a-zA-Z0-9_]*$/i', $namespace)) {
+                throw new InvalidArgumentException(sprintf('The namespace "%s" is not a valid namespace.', $namespace));
+            }
+
+            $extraNamespace = ucfirst($namespace) . '\\';
+            $extraName = strtolower($namespace) . '_';
+        }
+
         $persistenceClassNameDetails = $generator->createClassNameDetails(
             $input->getArgument('name') . 'Type',
-            'Persistence\\Doctrine\\'
+            'Persistence\\Doctrine\\' . $extraNamespace,
         );
         $idTypeClassNameDetails = $generator->createClassNameDetails(
             $input->getArgument('name'),
-            'ValueObject\\'
+            'ValueObject\\' . $extraNamespace
         );
 
+        $typeName = $extraName . $input->getArgument('name');
         $generator->generateClass(
             $idTypeClassNameDetails->getFullName(),
             __DIR__ . '/Resources/skeleton/Id.tpl.php',
             [
-                'type_id_name' => $input->getArgument('name'),
+                'type_id_name' => $typeName,
             ]
         );
 
@@ -71,14 +86,14 @@ class IdTypeMaker extends AbstractMaker
             [
                 'type_id_class_name_full' => $idTypeClassNameDetails->getFullName(),
                 'type_id_class_name' => $idTypeClassNameDetails->getShortName(),
-                'type_id_name' => $input->getArgument('name'),
+                'type_id_name' => $typeName,
             ]
         );
 
         if ($input->getOption('register') !== false) {
             $manipulator = new YamlSourceManipulator($this->fileManager->getFileContents('config/packages/doctrine.yaml'));
             $doctrineData = $manipulator->getData();
-            $doctrineData['doctrine']['dbal']['types'][$input->getArgument('name')] = $persistenceClassNameDetails->getFullName();
+            $doctrineData['doctrine']['dbal']['types'][$typeName] = $persistenceClassNameDetails->getFullName();
             $manipulator->setData($doctrineData);
 
             $generator->dumpFile('config/packages/doctrine.yaml', $manipulator->getContents());

@@ -43,7 +43,7 @@ return [
 To generate an UuidType:
 
 ```bash
-bin/console make:id-type [--register] <id_name>
+bin/console make:id-type [--register] [--namespace <ExtraNamespace>] <id_name>
 ```
 
 Where `id_name` is something like "user_id".
@@ -53,6 +53,8 @@ and if the `--register` option is given, also the new type is added to `config/p
 
 Registering is not needed if you are using autoconfigure because of the service tag "skrepr.id-type" will automatically
 register the type to doctrine.
+
+You can also add an extra namespace to the Id with the option `--namespace`.
 
 To use this new id in your entity (example:
 ```php
@@ -97,7 +99,7 @@ $userId = new UserId( \Symfony\Component\Uid\Uuid::v4() );
 ```
 
 
-### AutoConfigure
+### AutoConfigure (and upgrade from older versions)
 By default, the created ID's can be used with AutoConfigure from Symfony. To upgrade existing ID's to this system you have to
 do the following (in this example we use "UserId").
 
